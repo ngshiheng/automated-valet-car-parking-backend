@@ -5,9 +5,16 @@
 -   Timestamp inside `input.txt` are always arranged in a chronologically manner (top-down)
 -   There will only be two types of events input, i.e. `Enter` or `Exit`
 
+## Design
+
+-   [Observer Pattern](https://en.wikipedia.org/wiki/Observer_pattern)
+-   With this design pattern, can easily perform additional operations such as sending a notification upon Vehicle entry, sends a Slack message, send information to our monitoring system etc. Making the system more extensible.
+
+---
+
 ## Requirement
 
-This project uses Python3.9. You may install Python3.9 on Ubuntu 16.04 using the steps below:
+This project uses **Python 3.9**. You may install Python 3.9 on Ubuntu 16.04 using the steps below:
 
 ```sh
 # 1. Update the apt package list
@@ -31,6 +38,10 @@ apt-get -y install python3.9
 
 This step is required only for local development to ensure code quality.
 
+We use [poetry](https://python-poetry.org/docs/) to manage our dependencies.
+
+Though, there isn't any third party dependencies required for the project to work properly. We merely use `pre-commit`, `flake8`, and `autopep8` to improve code quality.
+
 ```sh
 poetry install
 pre-commit install
@@ -38,14 +49,30 @@ pre-commit install
 
 ## Usage
 
-1. Update `input.txt` accordingly.
-2. Run the `python3 main.py`
+0. Make sure you have Python3.9 installed on your local machine (see [Requirement](#requirement)].
+1. Clone this repository.
+2. Optional: Update `input.txt` accordingly.
+3. Run the `python3 main.py`
+4. Output will be printed in your terminal.
+
+    ```sh
+    # Example output in your terminal using the default `input.txt`.
+
+    > python3 main.py
+    Accept MotorcycleLot1
+    Accept CarLot1
+    MotorcycleLot1 2
+    Accept CarLot2
+    Accept CarLot3
+    Reject
+    CarLot3 6
+    ```
 
 ---
 
 # Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Setup Pre-commit Hooks
 
