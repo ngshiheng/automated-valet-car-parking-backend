@@ -124,9 +124,11 @@ class TestAutomatedValetParkingSystems(unittest.TestCase):
                     "Enter car BGP2002F 1613551902\n",
                     "Enter car CGP2003F 1613561902\n",
                     "Enter car DGP2004F 1613571902\n",
-                    "Exit AGP2001F 1613561902\n",
+                    "Exit BGP2002F 1613561902\n",
+                    "Exit AGP2001F 1613591902\n",
                     "Enter car SDW2111W 1614571902\n",
                     "Enter car SGP1001F 1615571902\n",
+                    "Enter car SGX1011F 1616571902\n",
                 ]
                 f.writelines(text_list)
 
@@ -140,8 +142,10 @@ class TestAutomatedValetParkingSystems(unittest.TestCase):
                 "Accept CarLot2\n"
                 "Accept CarLot3\n"
                 "Accept CarLot4\n"
-                "CarLot1 12\n"
+                "CarLot2 6\n"
+                "CarLot1 28\n"
                 "Accept CarLot1\n"
+                "Accept CarLot2\n"
                 "Reject\n"
             ),
         )
