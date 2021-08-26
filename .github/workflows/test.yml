@@ -1,0 +1,29 @@
+name: test
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+    test-job:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-version: [3.9]
+                poetry-version: [1.1.7]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python-version }}
+
+            - uses: abatilo/actions-poetry@v2.0.0
+              with:
+                  poetry-version: ${{ matrix.poetry-version }}
+            - name: Install dependencies
+              run: |
+                  poetry install --no-root
+            - name: Run checks
+              run: |
+                  poetry run flake8 --statistics --show-source
+                  poetry run python3 -m unittest
