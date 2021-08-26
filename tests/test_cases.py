@@ -148,4 +148,4 @@ class TestAutomatedValetParkingSystems(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main(TestAutomatedValetParkingSystems().test_event_handler_default())
+    unittest.main()

@@ -1,6 +1,8 @@
 __all__ = ["subscribe", "post_event"]
 
-subscribers = dict()
+from typing import Any
+
+subscribers = {}
 
 
 def subscribe(event_type: str, fn) -> None:
@@ -9,7 +11,7 @@ def subscribe(event_type: str, fn) -> None:
     subscribers[event_type].append(fn)
 
 
-def post_event(event_type: str, data) -> None:
+def post_event(event_type: str, data: Any) -> None:
     if event_type not in subscribers:
         return
 
