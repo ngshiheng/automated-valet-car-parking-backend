@@ -28,6 +28,7 @@ This step is required only for local development to ensure code quality.
 
 ```sh
 poetry install
+pre-commit install
 ```
 
 ## Usage
