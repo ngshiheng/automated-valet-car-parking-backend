@@ -9,3 +9,4 @@ python3 -m unittest -k test_parse_input_file_returns_a_list_of_events
 python3 -m unittest -k test_event_handler_default
 python3 -m unittest -k test_event_handler_when_no_car_parking_lot
 python3 -m unittest -k test_event_handler_when_no_motorcycle_parking_lot
+python3 -m unittest -k test_parking_lots_are_filled_sequentially

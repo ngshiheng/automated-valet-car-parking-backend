@@ -115,6 +115,37 @@ class TestAutomatedValetParkingSystems(unittest.TestCase):
             ),
         )
 
+    def test_parking_lots_are_filled_sequentially(self) -> None:
+        with patch('sys.stdout', new=StringIO()) as output:
+            with open("test_input.txt", "w") as f:
+                text_list = [
+                    "4 0\n",
+                    "Enter car AGP2001F 1613541902\n",
+                    "Enter car BGP2002F 1613551902\n",
+                    "Enter car CGP2003F 1613561902\n",
+                    "Enter car DGP2004F 1613571902\n",
+                    "Exit AGP2001F 1613561902\n",
+                    "Enter car SDW2111W 1614571902\n",
+                    "Enter car SGP1001F 1615571902\n",
+                ]
+                f.writelines(text_list)
+
+            events = parse_input_file("test_input.txt")
+            event_handler(events)
+
+        self.assertEqual(
+            output.getvalue(),
+            (
+                "Accept CarLot1\n"
+                "Accept CarLot2\n"
+                "Accept CarLot3\n"
+                "Accept CarLot4\n"
+                "CarLot1 12\n"
+                "Accept CarLot1\n"
+                "Reject\n"
+            ),
+        )
+
 
 if __name__ == "__main__":
     unittest.main(TestAutomatedValetParkingSystems().test_event_handler_default())
