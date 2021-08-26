@@ -29,7 +29,7 @@ def event_handler(events: List[str]) -> None:
     Main event handler function.
     """
 
-    # Initialize event.
+    # Initialize events.
     setup_log_event()
 
     for event in events:
@@ -46,11 +46,11 @@ def event_handler(events: List[str]) -> None:
         else:
             raise ValueError("Invalid event type.")
 
-    # car_parking_lot.clear()
-    # motorcycle_parking_lot.clear()
-
 
 def main() -> None:
+    """
+    Main entry point of our automated valet car parking system.
+    """
     events = parse_input_file("input.txt")
     event_handler(events)
 
