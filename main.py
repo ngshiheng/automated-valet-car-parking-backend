@@ -2,16 +2,25 @@ from typing import List
 
 from api.log_listener import setup_log_event
 from api.vehicle import record_vehicle_entry, record_vehicle_exit
-from lib.database import VehicleType
+from lib.database import VehicleType, car_parking_lot, create_parking_lot, motorcycle_parking_lot
 
 
-def parse_events(file_path: str) -> List[str]:
+def parse_input_file(file_path: str) -> List[str]:
     """
     Read events from a text-based input file.
+    Initialize our database with parking lots with no occupant.
+    Returns a list of events from out input file.
     """
 
     with open(file_path, "r") as f:
         data = f.readlines()
+
+        car_parking_lot_size, motorcycle_parking_lot_size = data[0].split(" ", maxsplit=2)
+
+        # Populate our database.
+        car_parking_lot.update(create_parking_lot(VehicleType.CAR, int(car_parking_lot_size)))
+        motorcycle_parking_lot.update(create_parking_lot(VehicleType.MOTORCYCLE, int(motorcycle_parking_lot_size)))
+
         return data[1:]
 
 
@@ -37,9 +46,12 @@ def event_handler(events: List[str]) -> None:
         else:
             raise ValueError("Invalid event type.")
 
+    # car_parking_lot.clear()
+    # motorcycle_parking_lot.clear()
+
 
 def main() -> None:
-    events = parse_events("input.txt")
+    events = parse_input_file("input.txt")
     event_handler(events)
 
 

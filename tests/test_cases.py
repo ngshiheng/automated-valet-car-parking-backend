@@ -1,13 +1,17 @@
 import os
-import sys
 import unittest
 from io import StringIO
+from unittest.mock import patch
 
-from main import event_handler, parse_events
+from main import event_handler, parse_input_file
 
 
 class TestAutomatedValetParkingSystems(unittest.TestCase):
-    def setUp(self) -> None:
+    def tearDown(self) -> None:
+        os.remove('test_input.txt')
+        return super().tearDown()
+
+    def test_parse_input_file_returns_a_list_of_events(self) -> None:
         with open("test_input.txt", "w") as f:
             text_list = [
                 "3 4\n",
@@ -21,26 +25,31 @@ class TestAutomatedValetParkingSystems(unittest.TestCase):
             ]
             f.writelines(text_list)
 
-            self.events = text_list[1:]
+        events = parse_input_file("test_input.txt")
 
-        return super().setUp()
+        self.assertIsInstance(events, list)
+        self.assertEqual(events, text_list[1:])
 
-    def tearDown(self) -> None:
-        os.remove("test_input.txt")
-        return super().tearDown()
+    def test_event_handler_default(self) -> None:
+        with patch('sys.stdout', new=StringIO()) as output:
+            with open("test_input.txt", "w") as f:
+                text_list = [
+                    "3 4\n",
+                    "Enter motorcycle SGX1234A 1613541902\n",
+                    "Enter car SGF9283P 1613541902\n",
+                    "Exit SGX1234A 1613545602\n",
+                    "Enter car SGP2937F 1613546029\n",
+                    "Enter car SDW2111W 1613549730\n",
+                    "Enter car SSD9281L 1613549740\n",
+                    "Exit SDW2111W 1613559745",
+                ]
+                f.writelines(text_list)
 
-    def test_parse_events(self) -> None:
-        events = parse_events("test_input.txt")
-        self.assertEqual(events, self.events)
-
-    def test_event_handler(self) -> None:
-        captured_output = StringIO()
-        sys.stdout = captured_output
-        event_handler(self.events)
-        sys.stdout = sys.__stdout__
+            events = parse_input_file("test_input.txt")
+            event_handler(events)
 
         self.assertEqual(
-            captured_output.getvalue(),
+            output.getvalue(),
             (
                 "Accept MotorcycleLot1\n"
                 "Accept CarLot1\n"
@@ -52,6 +61,60 @@ class TestAutomatedValetParkingSystems(unittest.TestCase):
             ),
         )
 
+    def test_event_handler_when_no_car_parking_lot(self) -> None:
+        with patch('sys.stdout', new=StringIO()) as output:
+            with open("test_input.txt", "w") as f:
+                text_list = [
+                    "0 3\n",
+                    "Enter motorcycle SGX1234A 1613541902\n",
+                    "Enter car SGF9283P 1613541902\n",
+                    "Exit SGX1234A 1613545602\n",
+                    "Enter car SGP2937F 1613546029\n",
+                    "Enter car SDW2111W 1613549730\n",
+                    "Enter car SSD9281L 1613549740\n",
+                ]
+                f.writelines(text_list)
+
+            events = parse_input_file("test_input.txt")
+            event_handler(events)
+
+        self.assertEqual(
+            output.getvalue(),
+            (
+                "Accept MotorcycleLot1\n"
+                "Reject\n"
+                "MotorcycleLot1 2\n"
+                "Reject\n"
+                "Reject\n"
+                "Reject\n"
+            ),
+        )
+
+    def test_event_handler_when_no_motorcycle_parking_lot(self) -> None:
+        with patch('sys.stdout', new=StringIO()) as output:
+            with open("test_input.txt", "w") as f:
+                text_list = [
+                    "1 0\n",
+                    "Enter motorcycle SGX1234A 1613541902\n",
+                    "Enter car SGF9283P 1613541902\n",
+                    "Enter car SGP2937F 1613546029\n",
+                    "Enter car SSD9281L 1613549740\n",
+                ]
+                f.writelines(text_list)
+
+            events = parse_input_file("test_input.txt")
+            event_handler(events)
+
+        self.assertEqual(
+            output.getvalue(),
+            (
+                "Reject\n"
+                "Accept CarLot1\n"
+                "Reject\n"
+                "Reject\n"
+            ),
+        )
+
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(TestAutomatedValetParkingSystems().test_event_handler_default())

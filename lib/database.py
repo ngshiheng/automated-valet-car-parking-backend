@@ -5,6 +5,10 @@ from typing import Dict, Optional, Tuple
 
 from lib.errors import VehicleNotFoundError
 
+# Our parking lot database.
+car_parking_lot = {}
+motorcycle_parking_lot = {}
+
 
 class NoValue(Enum):
     def __repr__(self):
@@ -73,7 +77,7 @@ def add_vehicle(vehicle_type: VehicleType, number_plate: str, entry_epoch_timest
 def remove_vehicle(number_plate: str, exit_epoch_timestamp: int) -> Tuple[str, int]:
     """
     Remove a vehicle from our database.
-    Returns parking `lot_no` and `parking_Fee`.
+    Returns parking `lot_no` and `parking_fee`.
     """
 
     vehicle, lot_no, parking_lot = find_vehicle(number_plate)
@@ -101,12 +105,3 @@ def find_vehicle(number_plate: str) -> Tuple[Vehicle, str, dict]:
                 return vehicle, lot_no, parking_lot
 
     raise VehicleNotFoundError(number_plate)
-
-
-# Initliaze a global in-memory "database" for car_parking_lot and motorcycle_parking_lot.
-with open("input.txt", "r") as f:
-    data = f.readline()
-    car_parking_lot_size, motorcycle_parking_lot_size = data.split(" ", maxsplit=2)
-
-    car_parking_lot = create_parking_lot(VehicleType.CAR, int(car_parking_lot_size))
-    motorcycle_parking_lot = create_parking_lot(VehicleType.MOTORCYCLE, int(motorcycle_parking_lot_size))
