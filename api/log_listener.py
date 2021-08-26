@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Any, Dict
 
 from lib.database import Status
 from lib.logs import log
@@ -6,7 +6,7 @@ from lib.logs import log
 from api.event import subscribe
 
 
-def handle_vehicle_enter_event(data: Tuple[str, Status]) -> None:
+def handle_vehicle_enter_event(data: Dict[str, Any]) -> None:
     """
     Examples:
     - Accept MotorcycleLot1
@@ -15,7 +15,8 @@ def handle_vehicle_enter_event(data: Tuple[str, Status]) -> None:
     - Accept CarLot3
     - Reject
     """
-    lot_no, status = data
+    lot_no = data['lot_no']
+    status = data['status']
 
     if status == Status.ACCEPTED:
         log(f"Accept {lot_no}")
@@ -24,13 +25,15 @@ def handle_vehicle_enter_event(data: Tuple[str, Status]) -> None:
         log("Reject")
 
 
-def handle_vehicle_exit_event(data: Tuple[str, int]) -> None:
+def handle_vehicle_exit_event(data: Dict[str, Any]) -> None:
     """
     Examples:
     - MotorcycleLot1 2
     - CarLot3 6
     """
-    lot_no, parking_fee = data
+    lot_no = data['lot_no']
+    parking_fee = data['parking_fee']
+
     log(f"{lot_no} {parking_fee}")
 
 

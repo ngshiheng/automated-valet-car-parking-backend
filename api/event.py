@@ -7,7 +7,7 @@ subscribers = {}
 
 def subscribe(event_type: str, fn) -> None:
     """
-    Subscribe function used by listners.
+    Subscribe function used by listeners.
     """
     if event_type not in subscribers:
         subscribers[event_type] = []
