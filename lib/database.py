@@ -87,6 +87,7 @@ def remove_vehicle(number_plate: str, exit_epoch_timestamp: int) -> Dict[str, An
     Remove a vehicle from our database.
     Returns parking `lot_no` and `parking_fee`.
     """
+
     data = find_vehicle(number_plate)
     vehicle = data['vehicle']
     lot_no = data['lot_no']
@@ -102,10 +103,13 @@ def remove_vehicle(number_plate: str, exit_epoch_timestamp: int) -> Dict[str, An
     else:
         rate_per_hour = 2
 
+    parking_fee = billed_hours * rate_per_hour
+    assert parking_fee >= 0, f'Invalid parking fee. Please check the entry and exit timestamp of {vehicle}!'
+
     return {
         "vehicle": vehicle,
         "lot_no": lot_no,
-        "parking_fee": billed_hours * rate_per_hour,
+        "parking_fee": parking_fee,
     }
 
 

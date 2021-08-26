@@ -2,7 +2,7 @@
 
 ## Assumptions
 
--   Timestamp are always arranged in a chronologically manner (top-down)
+-   Timestamp inside `input.txt` are always arranged in a chronologically manner (top-down)
 -   There will only be two types of events input, i.e. `Enter` or `Exit`
 
 ## Requirement
