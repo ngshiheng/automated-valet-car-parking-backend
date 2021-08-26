@@ -14,10 +14,10 @@
 
 # Hosted Demo
 
-1. Go to https://replit.com/@JerryNg1/automated-valet-car-parking-backend
-2. Hit the "Play/Run" button.
-3. Observer the output
-4. Update `input.txt` accordingly
+1. Go to https://replit.com/@JerryNg1/automated-valet-car-parking-backend.
+2. Hit the "Play/Run" button & wait a couple of seconds for dependency installation.
+3. Observe the output.
+4. Update `input.txt` accordingly. i.e. `vim input.txt`
 5. Hit the "Play/Run" button again.
 6. Repeat.
 
