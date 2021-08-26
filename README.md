@@ -12,6 +12,19 @@
 
 ---
 
+# Hosted Demo
+
+1. Go to https://replit.com/@JerryNg1/automated-valet-car-parking-backend
+2. Hit the "Play/Run" button.
+3. Observer the output
+4. Update `input.txt` accordingly
+5. Hit the "Play/Run" button again.
+6. Repeat.
+
+---
+
+# Local
+
 ## Requirement
 
 This project uses **Python 3.9**. You may install Python 3.9 on Ubuntu 16.04 using the steps below:
